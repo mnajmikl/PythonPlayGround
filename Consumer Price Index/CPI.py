@@ -39,5 +39,5 @@ print(f"\nProjected CPI for the next 12 months with average monthly",
 
 for index, cpi in enumerate(nextmalaysiacpis):
     monthname, year, currentcpi = cpi
-    print(f"Projected CPI for next {index  + 1:2} months ({monthname:>9} {year:4}) is",
-          f"{round(currentcpi,2):.2f}")
+    print(f"Projected CPI for next {index  + 1:2} months",
+          f"({monthname:>9} {year:4}) is {round(currentcpi,2):.2f}")
