@@ -2,6 +2,7 @@
 Author: Mohammad Najmi Bachok
 Program detail: This code will find the letter(s) that are not used in ALL 50 US state names
 """
+import string
 
 states = ["Alabama",
             "Alaska",
@@ -54,15 +55,15 @@ states = ["Alabama",
             "Wisconsin",
             "Wyoming"]
 
-letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
+letters = string.ascii_uppercase
+#letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 lettersfound = ""
 
 for state in states:
     for letter in letters:
-        if state.upper().find(letter) != -1:
-            if lettersfound.find(letter) == -1:
-                lettersfound += letter
+        if (state.upper().find(letter) != -1) and \
+        (lettersfound.find(letter) == -1): 
+            lettersfound += letter
 letterssorted = sorted(set(lettersfound))
 lettersfound = ''.join(letterssorted)
 
