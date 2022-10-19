@@ -2,6 +2,9 @@ from random import shuffle
 from tkinter import *
 from tkinter import messagebox
 
+boysnames = ["Michael", "John", "Chad", "Greg", "Peter", "Patrick", "Carter", "Franz", "Stewie"]
+girlsnames = ["Mary", "Jane", "Amye", "Lois", "Megan", "Bonnie", "Consuela", "Kate", "Trisha"]
+
 """
 MyGUI window class
 """
@@ -60,7 +63,6 @@ class MyGUI(Tk):
         self.frameright['text'] = "Girl's Names"
         self.frameright.pack(**wpadding, expand=True, fill=BOTH, side=RIGHT)
         
-        boysnames = ["Michael", "John", "Chad", "Greg", "Peter", "Patrick", "Carter", "Franz", "Stewie"]
         boysnamesvars = StringVar(value=boysnames)
         self.listbox1 = Listbox(self.frameleft, listvariable=boysnamesvars)
         self.listbox1['relief'] = 'flat'
@@ -71,7 +73,6 @@ class MyGUI(Tk):
         self.listbox1.config(yscrollcommand=self.scrollbar1.set)
         self.scrollbar1.config(command=self.listbox1.yview)
 
-        girlsnames = ["Mary", "Jane", "Amye", "Lois", "Megan", "Bonnie", "Consuela", "Kate", "Trisha"]
         girlsnamesvars = StringVar(value=girlsnames)
         self.listbox2 = Listbox(self.frameright, listvariable=girlsnamesvars)
         self.listbox2['relief'] = 'flat'
@@ -97,17 +98,31 @@ class MyGUI(Tk):
         """
         Bind event to randomize button
         """
-        self.buttonrandomize.bind('<Button-1>', lambda event: randomizelist(self.listbox1.get(0, END), self.listbox1), add="+")
-        self.buttonrandomize.bind('<Button-1>', lambda event: randomizelist(self.listbox2.get(0, END), self.listbox2), add="+")
+        self.buttonrandomize.bind('<Button-1>',
+                                  lambda event:
+                                  randomizelist(self.listbox1.get(0, END),
+                                                              self.listbox1), add="+")
+        self.buttonrandomize.bind('<Button-1>',
+                                  lambda event:
+                                  randomizelist(self.listbox2.get(0, END),
+                                                              self.listbox2), add="+")
 
         """
         Bind event to add names buttons 
         """
-        self.buttonaddboys.bind('<Button-1>', lambda event: addnametolist(self.listbox1, self.editboys, self.labelstatus, "Boy's"), add="+")
         self.buttonaddboys.bind('<Button-1>', resetrelief, add="+")
-        self.buttonaddgirls.bind('<Button-1>', lambda event: addnametolist(self.listbox2, self.editgirls, self.labelstatus, "Girl's"), add="+")
+        self.buttonaddboys.bind('<Button-1>',
+                                lambda event:
+                                addnametolist(self.listbox1,
+                                              self.editboys,
+                                              self.labelstatus, "Boy's"), add="+")
         self.buttonaddgirls.bind('<Button-1>', resetrelief, add="+")
-
+        self.buttonaddgirls.bind('<Button-1>',
+                                 lambda event:
+                                 addnametolist(self.listbox2,
+                                                self.editgirls,
+                                                self.labelstatus, "Girl's"), add="+")
+        
     """
     Create main menu for the main window
     """
@@ -195,6 +210,9 @@ def randomizelist(l, lbox: Listbox):
 
 def addnametolist(lbox: Listbox, edit: Entry, status: Label, gender: str):
     name = edit.get()
+    if name in list(lbox.get(0, END)):
+        showstatus(f"{name} has already exists in {gender} list", status)
+        return
     if name == "":
         return
     lbox.insert("end", name)
@@ -204,7 +222,7 @@ def addnametolist(lbox: Listbox, edit: Entry, status: Label, gender: str):
 def showstatus(details: str, status: Label):
     status['text'] = f"{details}"
 
-def resetrelief(event):
+def resetrelief(event=None):
     if isinstance(event.widget, Button):
         event.widget.config(relief=RAISED)
     
